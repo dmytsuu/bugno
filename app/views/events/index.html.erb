@@ -1,0 +1,8 @@
+<%= turbo_frame_tag "#{params[:status]}_events_page_#{params[:page]}" do %>
+  <%= render @events %>
+  <% if @next_page  %>
+    <%= turbo_frame_tag "#{params[:status]}_events_page_#{@next_page}", loading: :lazy, src: events_path(project_id: params[:project_id], status: params[:status], page: @next_page) do %>
+      <div class="rounded-md my-3 bg-gray-200 py-1 px-2 w-full h-20"></div>
+    <% end %>
+  <% end %>
+<% end %>

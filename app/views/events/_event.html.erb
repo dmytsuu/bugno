@@ -1,0 +1,66 @@
+<div class="rounded-md my-3 bg-white py-1 px-2 event-container" id=<%= dom_id(event) %>>
+  <div class="flex flex-col md:flex-row flex-wrap mb-1">
+    <p class="flex flex-wrap flex-grow truncate overflow-ellipsis overflow-hidden">
+      <span class="mr-1">
+        <%= event.title %>
+      </span>
+
+      <span class="rounded bg-red-500 text-white px-1 mr-1">
+        <%= event.framework %>
+      </span>
+
+      <span class="rounded bg-gray-400 text-white px-1">
+        <%= event.occurrence_count %>
+      </span>
+    </p>
+    <p>
+      <%= distance_of_time_in_words(event.last_occurrence_at || event.created_at, Time.now.in_time_zone) %>
+      <span>ago</span>
+    </p>
+  </div>
+  <div class="text-sm mb-1 truncate overflow-ellipsis overflow-hidden">
+    <%= event.message %>
+  </div>
+    <div class="text-sm mb-1 flex flex-wrap">
+      <% if event.person_data&.dig('email') %>
+        <div class="mr-1">
+          <span>User: </span><%= event.person_data.dig('email') %>
+        </div>
+      <% end %>
+      <% if event.ip_address %>
+        <span>IP address: </span><%= event.ip_address %>
+      <% end %>
+    </div>
+    <div class="flex text-sm mb-1 justify-between">
+      <div class="flex items-center assignee-container">
+        <%= label_tag "#{dom_id(event)}_assignee", class: 'assignee-label' do %>
+          <%= image_tag event.user&.image || 'logo.svg', alt: 'assignee', class: 'rounded-full w-8 mr-2 cursor-pointer' %>
+        <% end %>
+        <%= check_box_tag "#{dom_id(event)}_assignee", event.id, false, class: 'hidden assignee-checkbox' %>
+        <%= turbo_frame_tag "project_users", loading: :lazy, src: project_users_path(project_id: event.project_id, event_id: event.id, assignee_id: event.user_id) %>
+        <%= form_with model: event, method: :put do |f|%>
+          <%= f.submit event.user&.nickname || 'Assign self', class: 'p-1 rounded bg-white hover:bg-gray-100 cursor-pointer' %>
+        <% end %>
+      </div>
+      <div class="flex items-center">
+        <% unless event.active?%>
+          <%= form_with model: event, method: :put do |f|%>
+          <%= f.hidden_field :status, value: 'active' %>
+            <%= f.submit 'Activate', class: 'p-1 rounded mr-1 bg-blue-300 text-white cursor-pointer' %>
+          <% end %>
+        <% end %>
+        <% unless event.muted?%>
+          <%= form_with model: event, method: :put do |f|%>
+          <%= f.hidden_field :status, value: 'muted' %>
+            <%= f.submit 'Mute', class: 'p-1 rounded mr-1 bg-gray-300 text-white cursor-pointer' %>
+          <% end %>
+        <% end %>
+        <% unless event.resolved?%>
+          <%= form_with model: event, method: :put do |f|%>
+            <%= f.hidden_field :status, value: 'resolved' %>
+            <%= f.submit 'Resolve', class: 'p-1 rounded mr-1 bg-green-300 text-white cursor-pointer' %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+</div>

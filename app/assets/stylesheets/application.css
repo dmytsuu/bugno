@@ -13,3 +13,60 @@
  *= require_tree .
  *= require_self
  */
+
+
+ * {
+   box-sizing: border-box;
+   margin: 0;
+   padding: 0;
+ }
+
+ body {
+   overflow-y: hidden;
+ }
+
+ .slider {
+   font-family: sans-serif;
+   scroll-snap-type: x mandatory;
+   display: flex;
+   justify-content: space-between;
+   -webkit-overflow-scrolling: touch;
+   overflow-x: scroll;
+ }
+
+ .section {
+   border-right: 1px solid white;
+   padding: 1rem;
+   min-width: 100vw;
+   height: 98vh;
+   scroll-snap-align: center;
+   position: relative;
+   overflow-y: scroll;
+ }
+
+ @media only screen and (min-width: 768px) {
+  .section {
+    min-width: 33vw;
+    width: 33vw;
+    margin: 1vh 0;
+  }
+ }
+
+.event-container {
+  min-height: 5rem;
+}
+
+.assignee-checkbox:not(:checked) + turbo-frame {
+  display: none;
+}
+
+.assignee-container {
+  position: relative;
+}
+
+.assignee-container .assignee-dropdown {
+  padding: 8px 0;
+  position: absolute;
+  top: 30px;
+  left: 30px;
+}
