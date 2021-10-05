@@ -31,7 +31,7 @@
         <span>IP address: </span><%= event.ip_address %>
       <% end %>
     </div>
-    <div class="flex text-sm mb-1 justify-between">
+    <div class="flex flex-col md:flex-row text-sm mb-1 justify-between">
       <div class="flex items-center assignee-container">
         <%= label_tag "#{dom_id(event)}_assignee", class: 'assignee-label' do %>
           <%= image_tag event.user&.image || 'logo.svg', alt: 'assignee', class: 'rounded-full w-8 mr-2 cursor-pointer' %>
