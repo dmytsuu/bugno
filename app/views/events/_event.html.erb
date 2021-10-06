@@ -32,9 +32,9 @@
       <% end %>
     </div>
     <div class="flex flex-col md:flex-row text-sm mb-1 justify-between">
-      <div class="flex items-center assignee-container">
+      <div class="flex items-center assignee-container mb-2 md:mb-0">
         <%= label_tag "#{dom_id(event)}_assignee", class: 'assignee-label' do %>
-          <%= image_tag event.user&.image || 'logo.svg', alt: 'assignee', class: 'rounded-full w-8 mr-2 cursor-pointer' %>
+          <%= image_tag event.user&.image || 'logo.svg', alt: 'assignee', class: 'rounded-full w-8 mr-2 cursor-pointer border-2 border-transparent hover:border-gray-600' %>
         <% end %>
         <%= check_box_tag "#{dom_id(event)}_assignee", event.id, false, class: 'hidden assignee-checkbox' %>
         <%= turbo_frame_tag "project_users", loading: :lazy, src: project_users_path(project_id: event.project_id, event_id: event.id, assignee_id: event.user_id) %>
@@ -42,23 +42,23 @@
           <%= f.submit event.user&.nickname || 'Assign self', class: 'p-1 rounded bg-white hover:bg-gray-100 cursor-pointer' %>
         <% end %>
       </div>
-      <div class="flex items-center">
+      <div class="flex flex-col md:flex-row items-center">
         <% unless event.active?%>
-          <%= form_with model: event, method: :put do |f|%>
+          <%= form_with model: event, method: :put, class: 'w-full md:w-auto mb-2 md:mb-0' do |f|%>
           <%= f.hidden_field :status, value: 'active' %>
-            <%= f.submit 'Activate', class: 'p-1 rounded mr-1 bg-blue-300 text-white cursor-pointer' %>
+            <%= f.submit 'Activate', class: 'p-1 rounded mr-1 bg-blue-300 text-white w-full md:w-auto cursor-pointer' %>
           <% end %>
         <% end %>
         <% unless event.muted?%>
-          <%= form_with model: event, method: :put do |f|%>
+          <%= form_with model: event, method: :put, class: 'w-full md:w-auto mb-2 md:mb-0' do |f|%>
           <%= f.hidden_field :status, value: 'muted' %>
-            <%= f.submit 'Mute', class: 'p-1 rounded mr-1 bg-gray-300 text-white cursor-pointer' %>
+            <%= f.submit 'Mute', class: 'p-1 rounded mr-1 bg-gray-300 text-white w-full md:w-auto cursor-pointer' %>
           <% end %>
         <% end %>
         <% unless event.resolved?%>
-          <%= form_with model: event, method: :put do |f|%>
+          <%= form_with model: event, method: :put, class: 'w-full md:w-auto mb-2 md:mb-0' do |f|%>
             <%= f.hidden_field :status, value: 'resolved' %>
-            <%= f.submit 'Resolve', class: 'p-1 rounded mr-1 bg-green-300 text-white cursor-pointer' %>
+            <%= f.submit 'Resolve', class: 'p-1 rounded mr-1 bg-green-300 text-white w-full md:w-auto cursor-pointer' %>
           <% end %>
         <% end %>
       </div>

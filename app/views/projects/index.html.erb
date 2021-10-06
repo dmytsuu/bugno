@@ -1,5 +1,6 @@
-<%= link_to 'Exit', destroy_user_session_path, class: 'px-2 py-1 rounded bg-red-200 text-xl' %>
-<h1 class="text-xl py-4">Projects</h1>
-<ul>
-  <%= render @projects %>
-</ul>
+<%= turbo_frame_tag 'projects' do %>
+<h2 class="text-2xl font-bold">Projects:</h2>
+  <ul class="text-center">
+    <%= render @projects %>
+  </ul>
+<% end %>

@@ -4,7 +4,8 @@ class User < ActiveRecord::Base
   # extend Devise::Models
   devise :database_authenticatable,
          :validatable,
-         :recoverable
+         :recoverable,
+         :rememberable
 
   validates :email, uniqueness: true
 

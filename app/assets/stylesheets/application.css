@@ -60,6 +60,10 @@
   display: none;
 }
 
+.navigation-checkbox:not(:checked) + .navigation {
+  display: none;
+}
+
 .assignee-container {
   position: relative;
 }

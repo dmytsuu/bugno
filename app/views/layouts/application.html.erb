@@ -13,6 +13,16 @@
   </head>
 
   <body>
+    <%= label_tag :projects_nav, class: 'fixed h-14 bottom-8 right-8 z-20 flex' do %>
+      <div class="rounded-full bg-gray-800 w-14 p-2 cursor-pointer">
+        <%= image_tag 'logo.svg', class: 'filter invert hover:opacity-75' %>
+      </div>
+    <% end %>
+    <%= check_box_tag :projects_nav, :projects_nav, false, class: 'hidden navigation-checkbox' %>
+    <div class="fixed inset-0 bg-white z-10 navigation flex flex-col justify-between text-center">
+      <%= turbo_frame_tag 'projects', loading: :lazy, src: projects_path %>
+      <%= link_to 'Exit', destroy_user_session_path, class: 'py-2 block text-white text-xl bg-red-400 hover:bg-red-500' %>
+    </div>
     <%= yield %>
   </body>
 </html>
