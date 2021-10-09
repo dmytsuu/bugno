@@ -25,7 +25,7 @@
       <p class="mb-2">Browser: <%= @event.user_browser %></p>
     <% end %>
     <p class="mb-2">First appearance: <%= @event.created_at %></p>
-    <p class="mb-2">Last occurrence: <%= @event.last_occurrence_at %></p>
+    <p class="mb-2">Last occurrence: <%= @event.last_occurrence_at || @event.created_at%></p>
     <p>Occurrences: <%= @event.occurrence_count %></p>
   </div>
   <div class="flex flex-col md:flex-row px-2 md:px-8 mb-4">

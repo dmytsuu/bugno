@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::EventsController < ApiController
+class Api::V1::EventsController < ApiController
   def create
     @project = Project.find_by(api_key: params[:project_id])
     if @project

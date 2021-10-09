@@ -1,8 +1,15 @@
 @import 'variables';
 @import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
 
+:root {
+  --wild-sand: #F6F6F6;
+  --baltic-sea: #282828;
+  --java: #1DB1D9;
+  --silver-chalice: #A0A0A0;
+}
+
 body {
-  color: $baltic-sea;
+  color: var(--baltic-sea);
   margin: 0;
   font-family: 'Lato', sans-serif;
 }
@@ -14,7 +21,7 @@ pre {
 
 .text-white { color: white; }
 
-.wrapper { background: $wild-sand; }
+.wrapper { background: var(--wild-sand); }
 
 .rounded { border-radius: 50%; }
 
@@ -55,7 +62,7 @@ pre {
   font-style: italic;
   margin: auto;
   text-align: center;
-  background: rgba($java, 0.8);
+  background: var(--java);
   margin-bottom: 20px;
 }
 
@@ -71,7 +78,8 @@ pre {
 }
 
 .divider {
-  border-bottom: 2px solid rgba($java, 0.6);
+  border-bottom: 2px solid var(--java);
+  opacity: 0.6;
   margin: 3px 0;
 }
 
@@ -80,7 +88,7 @@ pre {
   font-size: 12px;
   bottom: 10px;
   right: 10px;
-  color: $silver-chalice;
+  color: var(--silver-chalice);
 }
 
 .code-snippet {
@@ -88,14 +96,16 @@ pre {
   padding: 10px 0;
 }
 
-.code-snippet-main-line { background: rgba($java, 0.1); }
+.code-snippet-main-line {
+  background: var(--java);
+}
 
 .backtrace { font-size: 12px; }
 
 .traceline { padding: 1px 0; }
 
 .link {
-  color: $baltic-sea;
+  color: var(--baltic-sea);
   text-decoration: none;
 }
 

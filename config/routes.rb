@@ -10,5 +10,5 @@ Rails.application.routes.draw do
   end
   resources :assignees
   resources :events
-  post 'api/v1/projects/:project_id/events', to: 'api/events#create'
+  post 'api/v1/projects/:project_id/events', to: 'api/v1/events#create'
 end

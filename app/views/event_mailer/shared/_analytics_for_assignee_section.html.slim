@@ -1,14 +1,14 @@
 .section
-  .section-title = t('mailer.analytics')
+  .section-title Analytics
   .divider
   - if @occurences_present
-    span> = t('mailer.total_occurrence')
+    span> Total occurrences:
     span.font-weight-bold = @event.occurrence_count
   - if @occurrences_today
     .new_line
-      span> = t('mailer.occurrences_today')
+      span> Occurrences today:
       span.font-weight-bold = @event.occurrences_today_count
   - if @assigned_in_project
     .new_line
-      span> = t('mailer.assigned_on_user_in_project')
+      span> Assigned events on you in project:
       span.font-weight-bold = @assignee.assigns_count_in_project(@event.project_id)
