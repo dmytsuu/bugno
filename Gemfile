@@ -19,11 +19,10 @@ gem 'rails', '~> 6.1.4', '>= 6.1.4.1'
 gem 'redis', '~> 4.0'
 gem 'sass-rails', '>= 6'
 gem 'sidekiq'
+gem 'slim'
 gem 'stimulus-rails', '~> 0.6.1'
 gem 'tailwindcss-rails'
 gem 'turbo-rails'
-
-gem 'slim'
 
 group :development, :test do
   gem 'pry'
