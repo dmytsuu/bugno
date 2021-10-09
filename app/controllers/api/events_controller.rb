@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Api::EventsController < ApiController
   def create
     @project = Project.find_by(api_key: params[:project_id])
@@ -29,7 +31,7 @@ class Api::EventsController < ApiController
         person_data: {},
         background_data: {},
         route_params: {},
-        backtrace: []
+        backtrace: [:code, :lineno, :method, :filename, { context: { pre: [], post: [] } }]
       )
   end
 end
