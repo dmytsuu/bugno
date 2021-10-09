@@ -1,0 +1,14 @@
+<%= turbo_frame_tag 'status' do %>
+  <div class="flex items-center assignee-container">
+    Status:
+    <%= label_tag "#{dom_id(event)}_status", class: 'assignee-label relative cursor-pointer rounded bg-gray-100 hover:bg-gray-200 p-2' do %>
+      <%= event.status.capitalize %>
+    <% end %>
+    <%= check_box_tag "#{dom_id(event)}_status", event.id, false, class: 'hidden assignee-checkbox' %>
+    <div class="assignee-frame">
+      <ul class="assignee-dropdown bg-white border rounded z-10">
+        <%= render partial: 'events/status_form', collection: Event.statuses.keys - [event.status], as: :status, locals: { event: event } %>
+      </ul>
+    </div>
+  </div>
+<% end %>

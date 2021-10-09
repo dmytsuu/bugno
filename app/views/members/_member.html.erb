@@ -1,0 +1,12 @@
+<div class="text-center m-4 shadow rounded-lg p-8 flex flex-col justify-between w-64" id="<%= dom_id(member) %>">
+  <div>
+    <%= image_tag member.user.image, class: 'h-24 w-24 rounded-full mx-auto' %>
+    <p class="mt-4"><%= member.role %></p>
+    <p><%= member.user.nickname %></p>
+  </div>
+  <% if current_user_owner? && member.collaborator? %>
+    <%= form_with url: project_member_path(@project, member), method: :delete, class: 'mt-4' do |f| %>
+      <%= f.submit 'Remove', class: 'rounded text-white bg-red-500 cursor-pointer py-1 hover:bg-red-600 block w-full' %>
+    <% end %>
+  <% end %>
+</div>

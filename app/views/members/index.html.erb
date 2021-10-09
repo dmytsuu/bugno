@@ -1,0 +1,4 @@
+<div class="p-4 flex flex-col md:flex-row">
+  <%= render partial: 'members/member', collection: @members %>
+  <%= turbo_frame_tag 'new_project_member', src: new_project_member_path if current_user_owner? %>
+</div>

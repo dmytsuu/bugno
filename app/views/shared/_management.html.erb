@@ -1,0 +1,14 @@
+<div class="flex flex-col">
+  <h2 class="text-2xl font-bold">Management:</h2>
+  <ul>
+    <li>
+      <%= link_to 'Board', project_path(@project), class: 'py-2 block text-xl hover:bg-gray-100' %>
+    </li>
+    <li>
+      <%= link_to 'Team', project_members_path(@project), class: 'py-2 block text-xl hover:bg-gray-100' %>
+    </li>
+    <li>
+      <%= link_to 'Settings', project_settings_path(@project), class: 'py-2 block text-xl hover:bg-gray-100' %>
+    </li>
+  </ul>
+</div>

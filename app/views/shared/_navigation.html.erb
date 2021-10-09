@@ -1,0 +1,13 @@
+<%= label_tag :projects, class: 'fixed h-14 bottom-8 right-8 z-20 flex container-label' do %>
+  <div class="rounded-full bg-gray-700 w-14 p-2 cursor-pointer">
+    <%= image_tag 'logo.svg', class: 'filter invert hover:opacity-75' %>
+  </div>
+<% end %>
+<%= check_box_tag :projects, :projects, false, class: 'hidden container-checkbox' %>
+<div class="fixed inset-0 bg-white z-10 navigation flex flex-col justify-between text-center container-content">
+  <div>
+    <%= render 'shared/management' if @project %>
+    <%= turbo_frame_tag 'projects', loading: :lazy, src: projects_path %>
+  </div>
+  <%= link_to 'Exit', destroy_user_session_path, class: 'py-2 block text-white text-xl bg-red-400 hover:bg-red-500' %>
+</div>

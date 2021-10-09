@@ -1,0 +1,9 @@
+<%= turbo_frame_tag 'new_project_member' do %>
+  <%= form_with model: [@project, @member], url: project_members_path, method: :post, class: 'text-center m-4 shadow rounded-lg p-8 flex flex-col justify-between w-64' do |f| %>
+    <div class="flex-grow">
+      <%= image_tag 'logo.svg', class: 'h-24 w-24 rounded-full mx-auto' %>
+    </div>
+    <%= f.email_field :email, class: 'mt-4 h-8 rounded', placeholder: 'new@member.com', required: true %>
+    <%= f.submit 'Invite', class: 'mt-8 rounded text-white bg-green-500 cursor-pointer py-1 hover:bg-green-600' %>
+  <% end %>
+<% end %>

@@ -1,66 +1,78 @@
-<div class="rounded-md my-3 bg-white py-1 px-2 event-container" id=<%= dom_id(event) %>>
-  <div class="flex flex-col md:flex-row flex-wrap mb-1">
-    <p class="flex flex-wrap flex-grow truncate overflow-ellipsis overflow-hidden">
-      <span class="mr-1">
-        <%= event.title %>
-      </span>
+<div class="rounded-md my-3 bg-white py-1 px-2 event-container hover:bg-gray-50 relative shadow <%= event.status_previously_changed? ? 'event-status-changed' : nil %>" id=<%= dom_id(event) %> draggable="true" data-action="dragstart->board#drag" data-status="<%= event.status %>">
+  <%= link_to event_path(event), class: 'event-link', target: '_top' do %>
+  <% end %>
+  <div>
+    <div class="flex flex-col md:flex-row flex-wrap mb-1">
+      <p class="flex flex-wrap flex-grow truncate overflow-ellipsis overflow-hidden">
+        <span class="mr-1">
+          <%= event.title %>
+        </span>
 
-      <span class="rounded bg-red-500 text-white px-1 mr-1">
-        <%= event.framework %>
-      </span>
+        <span class="rounded text-white px-1 mr-1 <%= framework_color_for(event) %>">
+          <%= event.framework %>
+        </span>
 
-      <span class="rounded bg-gray-400 text-white px-1">
-        <%= event.occurrence_count %>
-      </span>
-    </p>
-    <p>
-      <%= distance_of_time_in_words(event.last_occurrence_at || event.created_at, Time.now.in_time_zone) %>
-      <span>ago</span>
-    </p>
-  </div>
-  <div class="text-sm mb-1 truncate overflow-ellipsis overflow-hidden">
-    <%= event.message %>
-  </div>
-    <div class="text-sm mb-1 flex flex-wrap">
-      <% if event.person_data&.dig('email') %>
-        <div class="mr-1">
-          <span>User: </span><%= event.person_data.dig('email') %>
+        <span class="rounded-full bg-gray-400 text-white px-1">
+          <%= event.occurrence_count %>
+        </span>
+      </p>
+      <p class="flex items-center">
+        <%= distance_of_time_in_words(event.last_occurrence_at || event.created_at, Time.now.in_time_zone) %>
+        <span>ago</span>
+        <%= form_with model: event, method: :delete, class: 'hidden md:block' do |f|%>
+          <%= f.button type: 'submit', class: 'relative w-full' do %>
+            <%= image_tag 'close.svg', class: 'ml-2 hover:opacity w-4 h-4' %>
+          <% end %>
+        <% end %>
+      </p>
+    </div>
+    <div class="text-sm mb-1 truncate overflow-ellipsis overflow-hidden">
+      <%= event.message %>
+    </div>
+      <div class="text-sm mb-1 flex flex-wrap">
+        <% if event.person_data&.dig('email') %>
+          <div class="mr-1">
+            <span>User: </span><%= event.person_data.dig('email') %>
+          </div>
+        <% end %>
+        <% if event.ip_address %>
+          <span>IP address: </span><%= event.ip_address %>
+        <% end %>
+      </div>
+      <div class="flex flex-col md:flex-row text-sm mb-1 justify-between">
+        <div class="flex items-center assignee-container mb-2 md:mb-0">
+          <%= label_tag "#{dom_id(event)}_assignee", class: 'assignee-label relative' do %>
+            <%= image_tag event.user&.image || 'logo.svg', alt: 'assignee', class: 'rounded-full w-8 mr-2 cursor-pointer border-2 border-transparent hover:border-gray-600' %>
+          <% end %>
+          <%= check_box_tag "#{dom_id(event)}_assignee", event.id, false, class: 'hidden assignee-checkbox' %>
+          <%= turbo_frame_tag "assignees", loading: :lazy, src: assignees_path(project_id: event.project_id, event_id: event.id, assignee_id: event.user_id), class: 'assignee-frame' %>
+          <%= form_with model: event, method: :put do |f|%>
+            <%= f.submit event.user&.nickname || 'Assign self', class: 'p-1 rounded bg-white hover:bg-gray-100 cursor-pointer' %>
+          <% end %>
         </div>
-      <% end %>
-      <% if event.ip_address %>
-        <span>IP address: </span><%= event.ip_address %>
-      <% end %>
-    </div>
-    <div class="flex flex-col md:flex-row text-sm mb-1 justify-between">
-      <div class="flex items-center assignee-container mb-2 md:mb-0">
-        <%= label_tag "#{dom_id(event)}_assignee", class: 'assignee-label' do %>
-          <%= image_tag event.user&.image || 'logo.svg', alt: 'assignee', class: 'rounded-full w-8 mr-2 cursor-pointer border-2 border-transparent hover:border-gray-600' %>
-        <% end %>
-        <%= check_box_tag "#{dom_id(event)}_assignee", event.id, false, class: 'hidden assignee-checkbox' %>
-        <%= turbo_frame_tag "project_users", loading: :lazy, src: project_users_path(project_id: event.project_id, event_id: event.id, assignee_id: event.user_id) %>
-        <%= form_with model: event, method: :put do |f|%>
-          <%= f.submit event.user&.nickname || 'Assign self', class: 'p-1 rounded bg-white hover:bg-gray-100 cursor-pointer' %>
-        <% end %>
+        <div class="flex flex-col md:flex-row items-center md:hidden">
+          <% unless event.active?%>
+            <%= form_with model: event, method: :put, class: "w-full md:w-auto mb-2 md:mb-0 relative active-status-form" do |f|%>
+            <%= f.hidden_field :status, value: 'active' %>
+              <%= f.submit 'Activate', class: 'p-1 rounded mr-1 bg-blue-300 text-white w-full md:w-auto cursor-pointer' %>
+            <% end %>
+          <% end %>
+          <% unless event.resolved?%>
+            <%= form_with model: event, method: :put, class: "w-full md:w-auto mb-2 md:mb-0 relative resolved-status-form" do |f|%>
+              <%= f.hidden_field :status, value: 'resolved' %>
+              <%= f.submit 'Resolve', class: 'p-1 rounded mr-1 bg-green-300 text-white w-full md:w-auto cursor-pointer' %>
+            <% end %>
+          <% end %>
+          <% unless event.muted?%>
+            <%= form_with model: event, method: :put, class: "w-full md:w-auto mb-2 md:mb-0 relative muted-status-form" do |f|%>
+            <%= f.hidden_field :status, value: 'muted' %>
+              <%= f.submit 'Mute', class: 'p-1 rounded mr-1 bg-gray-300 text-white w-full md:w-auto cursor-pointer' %>
+            <% end %>
+          <% end %>
+          <%= form_with model: event, method: :delete, class: 'w-full md:w-auto mb-2 md:mb-0 relative' do |f|%>
+            <%= f.submit 'Delete', class: 'p-1 rounded mr-1 bg-red-500 text-white w-full md:w-auto cursor-pointer' %>
+          <% end %>
+        </div>
       </div>
-      <div class="flex flex-col md:flex-row items-center">
-        <% unless event.active?%>
-          <%= form_with model: event, method: :put, class: 'w-full md:w-auto mb-2 md:mb-0' do |f|%>
-          <%= f.hidden_field :status, value: 'active' %>
-            <%= f.submit 'Activate', class: 'p-1 rounded mr-1 bg-blue-300 text-white w-full md:w-auto cursor-pointer' %>
-          <% end %>
-        <% end %>
-        <% unless event.muted?%>
-          <%= form_with model: event, method: :put, class: 'w-full md:w-auto mb-2 md:mb-0' do |f|%>
-          <%= f.hidden_field :status, value: 'muted' %>
-            <%= f.submit 'Mute', class: 'p-1 rounded mr-1 bg-gray-300 text-white w-full md:w-auto cursor-pointer' %>
-          <% end %>
-        <% end %>
-        <% unless event.resolved?%>
-          <%= form_with model: event, method: :put, class: 'w-full md:w-auto mb-2 md:mb-0' do |f|%>
-            <%= f.hidden_field :status, value: 'resolved' %>
-            <%= f.submit 'Resolve', class: 'p-1 rounded mr-1 bg-green-300 text-white w-full md:w-auto cursor-pointer' %>
-          <% end %>
-        <% end %>
-      </div>
-    </div>
+  </div>
 </div>

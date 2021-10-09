@@ -1,0 +1,8 @@
+<li class="py-1 px-3 whitespace-nowrap w-48 hover:bg-gray-100 cursor-pointer">
+  <%= form_with model: event, method: :put do |f|%>
+    <%= f.hidden_field :status, value: status %>
+    <%= f.button type: :submit, class: 'cursor-pointer w-full text-left' do %>
+      <%= status.capitalize %>
+    <% end %>
+  <% end %>
+</li>

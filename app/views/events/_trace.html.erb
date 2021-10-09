@@ -1,0 +1,21 @@
+<div class="rounded border mb-4">
+  <%= label_tag "trace_#{trace_counter}", class: 'container-label cursor-pointer flex flex-col md:flex-row md:justify-between md:items-center' do %>
+    <h2 class="md:px-8 text-xl font-semibold p-4">
+      <%= trace.filename %>
+    </h2>
+    <button type="button" data-action="click->event#copyTraceFilename" data-filename="<%= trace.filename %>" class="mx-4 mb-2 md:mb-0 rounded p-1 bg-green-400 hover:bg-green-500 text-white">Copy</button>
+  <% end %>
+  <%= check_box_tag "trace_#{trace_counter}", "trace_#{trace_counter}", trace.project?, class: 'hidden container-checkbox' %>
+  <div class="bg-gray-50 border-t container-content">
+    <% trace.lines.each do |line| %>
+    <div class="flex flex-nowrap items-start whitespace-pre text-sm leading-3 <%= line[:main] ? 'bg-red-300' : nil %>" >
+      <div class="p-0 md:px-8">
+        <%= line[:lineno] %>
+      </div>
+      <div class="flex-grow break-all overflow-x-auto overflow-y-hidden">
+        <%= line[:code] %>
+      </div>
+    </div>
+    <% end %>
+  </div>
+</div>

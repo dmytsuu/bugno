@@ -1,0 +1,11 @@
+<%= turbo_frame_tag 'assignee' do %>
+  <div class="flex items-center assignee-container mr-2 mb-2">
+    Assignee:
+    <%= image_tag event.user&.image || 'logo.svg', alt: 'assignee', class: 'rounded-full w-8 mx-2' %>
+    <%= label_tag "#{dom_id(event)}_assignee", class: 'assignee-label relative cursor-pointer rounded bg-gray-100 hover:bg-gray-200 p-2' do %>
+      <%= event.user&.nickname || 'None' %>
+    <% end %>
+    <%= check_box_tag "#{dom_id(event)}_assignee", event.id, false, class: 'hidden assignee-checkbox' %>
+    <%= turbo_frame_tag "assignees", loading: :lazy, src: assignees_path(project_id: event.project_id, event_id: event.id), class: 'assignee-frame' %>
+  </div>
+<% end %>

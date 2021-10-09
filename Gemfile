@@ -13,7 +13,7 @@ gem 'puma', '~> 5.0'
 gem 'sass-rails', '>= 6'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.7'
-
+gem 'device_detector'
 gem 'importmap-rails'
 gem 'kaminari'
 gem 'turbo-rails'
@@ -50,3 +50,5 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+gem "stimulus-rails", "~> 0.6.1"

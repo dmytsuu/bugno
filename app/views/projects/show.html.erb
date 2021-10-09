@@ -1,10 +1,13 @@
 <%= turbo_stream_from @project %>
-<div class="slider">
+<div class="slider" data-controller="board">
   <% Event.statuses.each_key do |status| %>
-    <section class="section bg-gray-100 rounded-lg" id=<%= "#{status}_events" %>>
+    <section class="section bg-gray-100 rounded-lg shadow" id=<%= "#{status}_events" %>" data-board-target="list" data-status="<%= status %>">
+      <div class="px-2">
+        <%= status.capitalize %>
+      </div>
       <%= turbo_frame_tag "#{status}_events_page_1", src: events_path(project_id: @project.id, status: status, page: 1) do %>
         <% 6.times do %>
-          <div class="rounded-md my-3 bg-gray-200 py-1 px-2 w-full event-container"></div>
+          <div class="rounded-md my-3 bg-gray-200 py-1 px-2 w-full event-container shadow"></div>
         <% end %>
       <% end %>
     </section>

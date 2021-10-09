@@ -22,7 +22,7 @@
  }
 
  body {
-   overflow-y: hidden;
+   /* overflow-y: hidden; */
  }
 
  .slider {
@@ -35,10 +35,9 @@
  }
 
  .section {
-   border-right: 1px solid white;
    padding: 1rem;
    min-width: 100vw;
-   height: 98vh;
+   height: 97vh;
    scroll-snap-align: center;
    position: relative;
    overflow-y: scroll;
@@ -56,11 +55,11 @@
   min-height: 5rem;
 }
 
-.assignee-checkbox:not(:checked) + turbo-frame {
+.assignee-checkbox:not(:checked) + .assignee-frame {
   display: none;
 }
 
-.navigation-checkbox:not(:checked) + .navigation {
+.container-checkbox:not(:checked) + .container-content {
   display: none;
 }
 
@@ -73,4 +72,28 @@
   position: absolute;
   top: 30px;
   left: 30px;
+}
+
+.event-link::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.event-status-changed {
+  animation-name: border-fade;
+  animation-duration: 4s;
+  border-style: solid;
+}
+
+@keyframes border-fade {
+  from {
+    background-color: lightblue;
+  }
+  to {
+    background-color: white;
+  }
 }

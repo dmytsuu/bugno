@@ -13,22 +13,19 @@ class Event < ApplicationRecord
   enum status: %i[active resolved muted]
 
   validates :title, :status, :framework, presence: true
-  # validates_with EventProjectSubscriptionValidator
-  delegate :subscription, to: :project, allow_nil: true, prefix: true
 
-  # acts_as_list scope: %i[project_id status parent_id], top_of_list: 0, add_new_at: :top
   scope :by_status, ->(status) { where(status: status) if status.present? }
   scope :by_parent, ->(parent_id) { where(parent_id: parent_id) if parent_id.present? }
   scope :since, ->(time_ago) { where('created_at > :time_ago', time_ago: time_ago) }
 
-  # after_create :reactivate_parent, if: -> { parent&.resolved? }
-  # after_create :update_subscription_events, if: -> { project&.subscription&.active? }
-  # after_update :update_occurrences_status, if: -> { parent? && saved_change_to_status? }
+  after_create :reactivate_parent, if: -> { parent&.resolved? }
+  after_update :update_occurrences_status, if: -> { parent? && saved_change_to_status? }
   # after_save :update_active_count, :broadcast, if: :parent?
   # after_destroy :update_active_count, :broadcast, if: :parent?
 
-  after_update_commit -> { broadcast_replace_to project }, if: :user_id_previously_changed?
-  after_update_commit :broadcast_status_update, if: :status_previously_changed?
+  after_update_commit :broadcast_assignee_to_board, :broadcast_assignee_to_details, if: :user_id_previously_changed?
+  after_update_commit :broadcast_status_to_board, :broadcast_status_to_details, if: :status_previously_changed?
+  after_destroy_commit -> { broadcast_remove_to project }
 
   def message=(value)
     message = value.is_a?(String) && value.length > MESSAGE_MAX_LENGTH ? value.truncate(MESSAGE_MAX_LENGTH) : value
@@ -52,14 +49,58 @@ class Event < ApplicationRecord
     (headers && headers['User-Agent']).present?
   end
 
+  def device_detector
+    @device_detector ||= DeviceDetector.new(headers['User-Agent']) if user_agent?
+  end
+
+  def traces
+    @traces ||= backtrace.map { |trace| Chunk.new(trace) }
+  end
+
+  def project_trace?
+    traces.any?(&:project?)
+  end
+
+  def user_browser
+    "#{device_detector.name} #{device_detector.full_version}" if device_detector
+  end
+
+  def user_os
+    "#{device_detector.os_name} #{device_detector.os_full_version}" if device_detector
+  end
+
+  def user_device
+    "#{device_detector.device_name} #{device_detector.device_type}" if device_detector
+  end
+
+  def user_email
+    person_data&.dig('email')
+  end
+
+  def refer_url
+    headers&.dig('Referer')
+  end
+
   private
 
-  def broadcast_status_update
+  def broadcast_assignee_to_board
+    broadcast_replace_to project
+  end
+
+  def broadcast_assignee_to_details
+    broadcast_replace target: 'assignee', partial: 'events/assignee'
+  end
+
+  def broadcast_status_to_details
+    broadcast_replace target: 'status', partial: 'events/status'
+  end
+
+  def broadcast_status_to_board
     broadcast_remove_to project
     if prior_event_id
       broadcast_after_to project, target: "event_#{prior_event_id}"
     else
-      broadcast_prepend_to project, target: "#{status}_events"
+      broadcast_prepend_to project, target: "#{status}_events_page_1"
     end
   end
 
@@ -76,11 +117,6 @@ class Event < ApplicationRecord
     end
   end
 
-  def update_subscription_events
-    project.subscription.decrement(:events)
-    project.subscription.save
-  end
-
   def update_occurrences_status
     occurrences.update_all(status: status)
   end
@@ -91,24 +127,5 @@ class Event < ApplicationRecord
 
   def update_active_count
     project.update!(active_event_count: project.active_events.size)
-  end
-
-  def broadcast
-    project.project_users.includes(:user).each { |project_user| broadcast_to_user(project_user.user) }
-  end
-
-  def broadcast_to_user(user)
-    ActionCable.server.broadcast("user_#{user.id}",
-                                 EventSerializer.new(self).as_json.merge(action: broadcast_action))
-  end
-
-  def broadcast_action
-    if destroyed?
-      UserChannel::ACTIONS::DESTROY_EVENT
-    elsif saved_change_to_id?
-      UserChannel::ACTIONS::CREATE_EVENT
-    else
-      UserChannel::ACTIONS::UPDATE_EVENT
-    end
   end
 end

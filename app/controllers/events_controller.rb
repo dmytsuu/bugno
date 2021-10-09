@@ -1,10 +1,16 @@
 class EventsController < ApplicationController
   def index
     @events = Event
+              .includes(:user)
               .where(parent_id: nil, status: params[:status], project_id: params[:project_id])
               .order(Arel.sql('COALESCE(last_occurrence_at, created_at) DESC'))
               .page(params[:page])
     @next_page = @events.next_page
+  end
+
+  def show
+    @event = Event.includes(:project).find(params[:id])
+    @project = @event.project
   end
 
   def update
@@ -16,6 +22,12 @@ class EventsController < ApplicationController
     else
       render project_path(@event.project_id)
     end
+  end
+
+  def destroy
+    event = Event.find(params[:id])
+    event.destroy
+    head :no_content
   end
 
   private

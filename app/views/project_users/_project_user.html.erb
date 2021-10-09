@@ -1,9 +1,0 @@
-<li class="py-1 px-3 whitespace-nowrap w-48 hover:bg-gray-100 cursor-pointer">
-  <%= form_with model: @event, method: :put do |f|%>
-    <%= f.hidden_field :user_id, value: project_user.user_id %>
-    <%= f.button type: :submit, class: 'cursor-pointer' do %>
-      <%= image_tag project_user.user.image, class: 'w-8 mr-2 rounded-full inline-block' %>
-      <span><%= project_user.user.nickname %></span>
-    <% end %>
-  <% end %>
-</li>
