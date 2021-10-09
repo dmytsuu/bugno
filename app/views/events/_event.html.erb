@@ -18,7 +18,7 @@
       </p>
       <p class="flex items-center">
         <%= distance_of_time_in_words(event.last_occurrence_at || event.created_at, Time.now.in_time_zone) %>
-        <span>ago</span>
+        <span class="mx-1">ago</span>
         <%= form_with model: event, method: :delete, class: 'hidden md:block' do |f|%>
           <%= f.button type: 'submit', class: 'relative w-full' do %>
             <%= image_tag 'close.svg', class: 'ml-2 hover:opacity w-4 h-4' %>

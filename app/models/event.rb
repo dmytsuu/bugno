@@ -2,6 +2,7 @@
 
 class Event < ApplicationRecord
   MESSAGE_MAX_LENGTH = 3000
+  BROWSER_JS = 'browser-js'
 
   belongs_to :project
   belongs_to :user, optional: true
@@ -18,11 +19,11 @@ class Event < ApplicationRecord
   scope :by_parent, ->(parent_id) { where(parent_id: parent_id) if parent_id.present? }
   scope :since, ->(time_ago) { where('created_at > :time_ago', time_ago: time_ago) }
 
-  after_create :reactivate_parent, if: -> { parent&.resolved? }
-  after_update :update_occurrences_status, if: -> { parent? && saved_change_to_status? }
+  # after_update :update_occurrences_status, if: -> { parent? && saved_change_to_status? }
   # after_save :update_active_count, :broadcast, if: :parent?
   # after_destroy :update_active_count, :broadcast, if: :parent?
 
+  after_create -> { broadcast_prepend_later_to project, target: "#{status}_events_page_1" }, if: :parent?
   after_update_commit :broadcast_assignee_to_board, :broadcast_assignee_to_details, if: :user_id_previously_changed?
   after_update_commit :broadcast_status_to_board, :broadcast_status_to_details, if: :status_previously_changed?
   after_destroy_commit -> { broadcast_remove_to project }
@@ -84,15 +85,15 @@ class Event < ApplicationRecord
   private
 
   def broadcast_assignee_to_board
-    broadcast_replace_to project
+    broadcast_replace_later_to project
   end
 
   def broadcast_assignee_to_details
-    broadcast_replace target: 'assignee', partial: 'events/assignee'
+    broadcast_replace_later target: 'assignee', partial: 'events/assignee'
   end
 
   def broadcast_status_to_details
-    broadcast_replace target: 'status', partial: 'events/status'
+    broadcast_replace_later target: 'status', partial: 'events/status'
   end
 
   def broadcast_status_to_board
@@ -100,29 +101,23 @@ class Event < ApplicationRecord
     if prior_event_id
       broadcast_after_to project, target: "event_#{prior_event_id}"
     else
-      broadcast_prepend_to project, target: "#{status}_events_page_1"
+      broadcast_prepend_later_to project, target: "#{status}_events_page_1"
     end
   end
 
   def prior_event_id
     prior_order = 'COALESCE(last_occurrence_at, created_at) ASC'
-    @prior_event_id ||= begin
-      Event
-        .order(Arel.sql(prior_order))
-        .where('COALESCE(last_occurrence_at, created_at) >= ?', last_occurrence_at || created_at)
-        .where(parent_id: nil, status: status, project_id: project_id)
-        .limit(1)
-        .pluck(Arel.sql("LEAD(id) OVER ( ORDER BY #{prior_order} )"))
-        .first
-    end
+    @prior_event_id ||= Event
+                        .order(Arel.sql(prior_order))
+                        .where('COALESCE(last_occurrence_at, created_at) >= ?', last_occurrence_at || created_at)
+                        .where(parent_id: nil, status: status, project_id: project_id)
+                        .limit(1)
+                        .pluck(Arel.sql("LEAD(id) OVER ( ORDER BY #{prior_order} )"))
+                        .first
   end
 
   def update_occurrences_status
     occurrences.update_all(status: status)
-  end
-
-  def reactivate_parent
-    parent.active!
   end
 
   def update_active_count
