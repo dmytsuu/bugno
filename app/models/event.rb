@@ -85,7 +85,7 @@ class Event < ApplicationRecord
   private
 
   def broadcast_new_event_to_board
-    broadcast_prepend_later_to project, target: "#{status}_events_page_1"
+    broadcast_prepend_to project, target: "#{status}_events_page_1"
   end
 
   def broadcast_assignee_to_board
@@ -105,7 +105,7 @@ class Event < ApplicationRecord
     if prior_event_id
       broadcast_after_to project, target: "event_#{prior_event_id}"
     else
-      broadcast_prepend_later_to project, target: "#{status}_events_page_1"
+      broadcast_prepend_to project, target: "#{status}_events_page_1"
     end
   end
 
