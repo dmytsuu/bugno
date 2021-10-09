@@ -1,17 +1,25 @@
-<div class="container mx-auto px-4 py-4">
+<div class="container mx-auto px-4 py-4" data-controller="settings">
   <h1 class="text-xl mb-4">Project settings</h1>
-  <p class="mb-2">Name: <%= @project.name %></p>
+  <p class="mb-2">
+    <span>Name: </span>
+    <span data-settings-target="projectName"><%= @project.name %></span>
+  </p>
   <p class="mb-2">
     Api key:
     <% if @owner %>
-      <span data-controller="key" class="flex flex-col md:inline">
-        <input type="password" value="<%= @project.api_key %>" data-key-target="input">
-        <button type="button" data-action="click->key#copy" class="ml-1 p-1 rounded bg-green-500 hover:bg-green-600 text-white mt-1">Copy</button>
-        <button type="button" data-action="click->key#toggle" data-key-target="toggle" class="ml-1 p-1 rounded bg-red-500 hover:bg-red-600 text-white mt-1">Show</button>
+      <span class="flex flex-col md:inline">
+        <input type="password" value="<%= @project.api_key %>" data-settings-target="input">
+        <button type="button" data-action="click->settings#copy" class="ml-1 p-1 rounded bg-green-500 hover:bg-green-600 text-white mt-1">Copy</button>
+        <button type="button" data-action="click->settings#toggle" data-settings-target="toggle" class="ml-1 p-1 rounded bg-red-500 hover:bg-red-600 text-white mt-1">Show</button>
       </span>
     <% else %>
       Only available for owners
     <% end %>
   </p>
-  <%= link_to 'Edit', edit_project_settings_path(@project), class: 'p-2 rounded bg-blue-500 hover:bg-blue-600 text-white block md:inline mt-1' if @owner %>
+  <%= link_to 'Edit', edit_project_settings_path(@project), class: 'p-2 rounded text-center bg-blue-500 hover:bg-blue-600 text-white block md:inline mt-1' if @owner %>
+  <% if @owner %>
+    <%= form_with model: @project, method: :delete, class: 'mt-2 w-full md:w-auto', data: { settings_target: 'deleteForm' } do |f|%>
+      <%= f.submit 'Delete', class: 'p-2 rounded bg-red-500 hover:bg-red-600 w-full md:w-auto text-white block md:inline mt-1 cursor-pointer' %>
+    <% end %>
+  <% end %>
 </div>

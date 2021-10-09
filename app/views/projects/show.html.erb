@@ -2,7 +2,7 @@
 <div class="slider" data-controller="board">
   <% Event.statuses.each_key do |status| %>
     <section class="section bg-gray-100 rounded-lg shadow" id=<%= "#{status}_events" %>" data-board-target="list" data-status="<%= status %>">
-      <div class="px-2">
+      <div class="px-2 text-sm font-bold">
         <%= status.capitalize %>
       </div>
       <%= turbo_frame_tag "#{status}_events_page_1", src: events_path(project_id: @project.id, status: status, page: 1) do %>

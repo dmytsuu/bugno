@@ -1,6 +1,11 @@
 <%= turbo_frame_tag 'projects' do %>
-<h2 class="text-2xl font-bold">Projects:</h2>
-<ul class="text-center">
-  <%= render @projects %>
-</ul>
+  <div class="text-center">
+    <% if @projects.present? %>
+    <h2 class="font-bold">Projects:</h2>
+    <ul>
+      <%= render @projects %>
+    </ul>
+    <% end %>
+    <%= link_to 'New project', new_project_path, class: 'py-2 block font-bold hover:bg-gray-100', target: '_top' %>
+  </div>
 <% end %>

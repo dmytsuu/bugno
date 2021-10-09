@@ -23,7 +23,7 @@ class Event < ApplicationRecord
   # after_save :update_active_count, :broadcast, if: :parent?
   # after_destroy :update_active_count, :broadcast, if: :parent?
 
-  after_create -> { broadcast_prepend_later_to project, target: "#{status}_events_page_1" }, if: :parent?
+  after_create :broadcast_new_event_to_board, if: :parent?
   after_update_commit :broadcast_assignee_to_board, :broadcast_assignee_to_details, if: :user_id_previously_changed?
   after_update_commit :broadcast_status_to_board, :broadcast_status_to_details, if: :status_previously_changed?
   after_destroy_commit -> { broadcast_remove_to project }
@@ -83,6 +83,10 @@ class Event < ApplicationRecord
   end
 
   private
+
+  def broadcast_new_event_to_board
+    broadcast_prepend_later_to project, target: "#{status}_events_page_1"
+  end
 
   def broadcast_assignee_to_board
     broadcast_replace_later_to project

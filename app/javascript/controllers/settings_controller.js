@@ -1,7 +1,21 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ['input', 'toggle']
+  static targets = ['input', 'toggle', 'deleteForm', 'projectName']
+
+  connect() {
+    this.deleteFormTarget.addEventListener('submit', this.confirmDelete.bind(this))
+  }
+
+  confirmDelete(e) {
+    e.preventDefault()
+    const name = prompt('Enter project name to delete.')
+    if (name === this.projectNameTarget.innerText) {
+      this.deleteFormTarget.submit()
+    } else {
+      alert('Name is invlalid!')
+    }
+  }
 
   copy() {
     navigator.clipboard.writeText(this.inputTarget.value)

@@ -4,10 +4,10 @@
   </div>
 <% end %>
 <%= check_box_tag :projects, :projects, false, class: 'hidden container-checkbox' %>
-<div class="fixed inset-0 bg-white z-10 navigation flex flex-col justify-between text-center container-content">
+<div class="fixed inset-0 bg-white z-10 navigation flex flex-col justify-between text-center container-content overflow-y-auto">
   <div>
     <%= render 'shared/management' if @project %>
     <%= turbo_frame_tag 'projects', loading: :lazy, src: projects_path %>
+    <%= link_to 'Exit', destroy_user_session_path, class: 'py-2 text-white block md:inline-block px-4 bg-red-400 hover:bg-red-500 rounded mt-2' %>
   </div>
-  <%= link_to 'Exit', destroy_user_session_path, class: 'py-2 block text-white text-xl bg-red-400 hover:bg-red-500' %>
 </div>
