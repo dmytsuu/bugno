@@ -13,7 +13,7 @@
   </head>
 
   <body>
-    <%= render 'shared/navigation' %>
+    <%= render 'shared/navigation' if current_user %>
     <%= yield %>
   </body>
 </html>
