@@ -18,5 +18,4 @@ staging:
   url: <%= ENV['DATABASE_URL'] %>
 
 production:
-  <<: *default
-  database: bugno_production
+  url: <%= ENV['DATABASE_URL'] %>
