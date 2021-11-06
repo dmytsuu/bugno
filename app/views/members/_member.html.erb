@@ -1,8 +1,9 @@
-<div class="text-center m-4 shadow rounded-lg p-8 flex flex-col justify-between w-64" id="<%= dom_id(member) %>">
+<div class="text-center m-4 shadow rounded-lg p-8 flex flex-col justify-between w-72" id="<%= dom_id(member) %>">
   <div>
     <%= image_tag member.user.image, class: 'h-24 w-24 rounded-full mx-auto' %>
     <p class="mt-4"><%= member.role %></p>
     <p><%= member.user.nickname %></p>
+    <p><%= member.user.email %></p>
   </div>
   <% if current_user_owner? && member.collaborator? %>
     <%= form_with url: project_member_path(@project, member), method: :delete, class: 'mt-4' do |f| %>

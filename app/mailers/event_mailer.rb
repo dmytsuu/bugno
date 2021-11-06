@@ -59,7 +59,7 @@ class EventMailer < ApplicationMailer
 
   # rubocop:disable Security/Open
   def add_assigner_photo
-    attachments.inline['assigner.png'] = open(@assigner.image).read
+    attachments.inline['assigner.png'] = URI.open(@assigner.image).read
   end
   # rubocop:enable Security/Open
 

@@ -16,6 +16,7 @@ class EventsController < ApplicationController
   def update
     @event = Event.find(params[:id])
     if @event.update(params[:event].present? ? event_params : self_assign_params)
+      EventMailer.assign(@event, current_user).deliver_later if @event.user_id_previously_changed? && @event.user && @event.user != current_user
       respond_to do |format|
         format.turbo_stream {}
       end
