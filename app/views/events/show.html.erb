@@ -4,46 +4,46 @@
     <h1 class="text-xl mb-4"><%= @event.title %></h1>
     <h2 class="mb-4 text-xl"><%= @event.message %></h2>
     <% if @event.refer_url %>
-      <p class="mb-2">Refer: <%= @event.refer_url %></p>
+      <p class="mb-2 py-2">Refer: <%= @event.refer_url %></p>
     <% end %>
     <% if @event.url || @event.params&.dig('url') %>
-      <p class="mb-2">Request: <%= @event.url || @event.params&.dig('url') %></p>
+      <p class="mb-2 py-2">Request: <%= @event.url || @event.params&.dig('url') %></p>
     <% end %>
     <% if @event.user_email %>
-      <p class="mb-2">User: <%= @event.user_email %></p>
+      <p class="mb-2 py-2">User: <%= @event.user_email %></p>
     <% end %>
     <% if @event.ip_address %>
-      <p class="mb-2">IP: <%= @event.ip_address %></p>
+      <p class="mb-2 py-2">IP: <%= @event.ip_address %></p>
     <% end %>
     <% if @event.user_os %>
-      <p class="mb-2">OS: <%= @event.user_os %></p>
+      <p class="mb-2 py-2">OS: <%= @event.user_os %></p>
     <% end %>
     <% if @event.user_device %>
-      <p class="mb-2">Device: <%= @event.user_device %></p>
+      <p class="mb-2 py-2">Device: <%= @event.user_device %></p>
     <% end %>
     <% if @event.user_browser %>
-      <p class="mb-2">Browser: <%= @event.user_browser %></p>
+      <p class="mb-2 py-2">Browser: <%= @event.user_browser %></p>
     <% end %>
-    <p class="mb-2">First appearance: <%= @event.created_at %></p>
-    <p class="mb-2">Last occurrence: <%= @event.last_occurrence_at || @event.created_at%></p>
+    <p class="mb-2 py-2">This appeared: <%= @event.created_at %></p>
+    <p class="mb-2 py-2">Last appeared: <%= @event.last_occurrence_at || @event.created_at%></p>
     <% if @event.parent? && @event.last_occurrence %>
-      <p class="mb-4">
+      <p class="mb-4 py-2">
         <span>
-          Occurrences: <%= @event.occurrence_count %>
+          Occurrences total: <%= @event.occurrence_count %>
         </span>
-        <%= link_to 'Last cccurrence', event_path(@event.last_occurrence), class: 'rounded bg-gray-100 hover:bg-gray-200 p-2' %>
+        <%= link_to 'View last', event_path(@event.last_occurrence), class: 'rounded bg-gray-100 hover:bg-gray-200 p-2' %>
       </p>
     <% end %>
     <% if @event.occurrence? %>
-      <p class="mb-4">
-        <%= link_to 'Parent event', event_path(@event.parent_id), class: 'rounded bg-gray-100 hover:bg-gray-200 p-2' %>
+      <p class="mb-4 py-2">
+        <%= link_to 'View first', event_path(@event.parent_id), class: 'rounded bg-gray-100 hover:bg-gray-200 p-2' %>
       </p>
     <% end %>
-    <p class="mb-2">
+    <p class="mb-2 py-2">
       <%= link_to 'Request and headers', event_request_params_path(@event), class: 'rounded bg-gray-100 hover:bg-gray-200 p-2' %>
     </p>
   </div>
-  <div class="flex flex-col md:flex-row px-2 md:px-8 mb-4">
+  <div class="flex flex-col md:flex-row p-2 md:px-8 mb-4">
     <%= render partial: 'events/assignee', locals: { event: @event } %>
     <%= render partial: 'events/status', locals: { event: @event } %>
   </div>
