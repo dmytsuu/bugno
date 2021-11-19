@@ -44,9 +44,9 @@
 
  @media only screen and (min-width: 768px) {
   .section {
+    height: 94vh;
     min-width: 33vw;
     width: 33vw;
-    margin: 1vh 0;
   }
  }
 

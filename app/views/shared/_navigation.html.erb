@@ -1,0 +1,37 @@
+<div class="sticky px-2 py-1 flex justify-between items-center shadow bg-gray-100 mb-2">
+  <div class="flex items-center font-bold text-gray-600 text-sm">
+    <%= link_to root_path, class: 'w-12 p-1 inline-block mr-4' do %>
+      <%= image_tag 'logo.svg', class: 'hover:opacity-100 opacity-75' %>
+    <% end %>
+    <div class="mr-2">
+      <%= current_user.nickname %>
+    </div>
+    <% if @project %>
+      <div class="mr-2">
+        /
+      </div>
+      <div class="flex items-center font-bold text-gray-600 text-sm">
+        <div class="mr-4">
+          <%= @project.name %>
+        </div>
+        <div class="w-2">
+          <%= image_tag 'corner.svg', class: 'opacity-75' %>
+        </div>
+      </div>
+      <ul class="flex items-center">
+        <li>
+          <%= link_to 'Events', project_path(@project), class: 'hover:text-gray-800 py-2 pl-6 pr-3 block hover:bg-gray-100' %>
+        </li>
+        <li>
+          <%= link_to 'Team', project_members_path(@project), class: 'hover:text-gray-800 py-2 px-3 block hover:bg-gray-100' %>
+        </li>
+        <li>
+          <%= link_to 'Settings', project_settings_path(@project), class: 'hover:text-gray-800 py-2 px-3 block hover:bg-gray-100' %>
+        </li>
+      </ul>
+    <% end %>
+  </div>
+  <div>
+    <%= link_to 'Exit', destroy_user_session_path, class: 'py-2 font-bold text-gray-600 hover:text-gray-800 block md:inline-block px-4' %>
+  </div>
+</div>
