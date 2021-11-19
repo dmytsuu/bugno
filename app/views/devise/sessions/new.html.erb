@@ -2,8 +2,16 @@
   <h1 class="text-4xl mb-4">Turbo Bugno</h1>
   <h2 class="mb-4 text-3xl">Log in</h2>
 
-  <div class="font-bold bg-yellow-500 text-white rounded p-1 mb-4 inline-block">
-    This is new version of Bugno. If you had an account before use "Forgot you password?" feature to set new password.
+  <div class="flex flex-col items-start">
+    <div class="font-bold bg-yellow-500 text-white rounded p-1 mb-4">
+      This is new version of Bugno. If you had an account before use "Forgot you password?" feature to set new password.
+    </div>
+
+    <% if flash.present? %>
+    <div class="font-bold bg-red-500 text-white rounded p-1 mb-4">
+      <%= flash.to_h.values.to_sentence %>
+    </div>
+    <% end %>
   </div>
 
   <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
