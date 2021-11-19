@@ -2,7 +2,7 @@
   <%= form_with model: @event, method: :put do |f|%>
     <%= f.hidden_field :user_id, value: assignee.user_id %>
     <%= f.button type: :submit, class: 'cursor-pointer w-full text-left' do %>
-      <%= image_tag assignee.user.image, class: 'w-8 mr-2 rounded-full inline-block' %>
+      <%= image_tag assignee.user.image, loading: 'lazy', class: 'w-8 mr-2 rounded-full inline-block' %>
       <span><%= assignee.user.nickname %></span>
     <% end %>
   <% end %>
