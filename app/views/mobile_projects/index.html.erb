@@ -1,9 +1,9 @@
 <%= turbo_frame_tag 'projects' do %>
   <div class="text-center">
-    <% if @projects.present? %>
+    <% if @mobile_projects.present? %>
     <h2 class="font-bold">Projects:</h2>
     <ul>
-      <%= render @projects %>
+      <%= render partial: 'mobile_projects/mobile_project', collection: @mobile_projects %>
     </ul>
     <% end %>
     <%= link_to 'New project', new_project_path, class: 'py-2 block font-bold hover:bg-gray-100', target: '_top' %>
