@@ -34,12 +34,12 @@
   </div>
   <div class="traces" data-controller="event">
     <% if @event.project_trace? %>
-      <button role="button" class="fixed h-14 md:bottom-24 bottom-56 right-8 z-20 text-white rounded-full bg-gray-700 text-3xl w-14 p-2 cursor-pointer" data-action="click->event#navigate">
-        <%= image_tag 'up.svg', class: 'filter invert hover:opacity-75 transform rotate-180' %>
+      <button role="button" class="fixed h-14 md:bottom-24 bottom-56 right-8 z-20 text-white rounded-full bg-gray-700 md:bg-gray-200 md:shadow text-3xl w-14 p-2 cursor-pointer" data-action="click->event#navigate">
+        <%= image_tag 'up.svg', class: 'filter invert md:invert-0 hover:opacity-75 md:opacity-50 transform rotate-180' %>
       </button>
     <% end %>
-    <button role="button" class="fixed h-14 md:bottom-8 bottom-40 right-8 z-20 text-white rounded-full bg-gray-700 text-3xl w-14 p-2 cursor-pointer" data-action="click->event#top">
-      <%= image_tag 'up.svg', class: 'filter invert hover:opacity-75' %>
+    <button role="button" class="fixed h-14 md:bottom-8 bottom-40 right-8 z-20 text-white rounded-full bg-gray-700 md:bg-gray-200 md:shadow text-3xl w-14 p-2 cursor-pointer" data-action="click->event#top">
+      <%= image_tag 'up.svg', class: 'filter invert md:invert-0 hover:opacity-75 md:opacity-50' %>
     </button>
     <%= render partial: 'events/trace', collection: @event.traces %>
   </div>
