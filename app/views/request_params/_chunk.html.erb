@@ -1,0 +1,26 @@
+<div class="rounded border mb-4 text-base">
+  <%= label_tag chunk[:name], class: 'container-label cursor-pointer' do %>
+    <h2 class="md:px-8 font-semibold p-4">
+      <%= chunk[:name] %>
+    </h2>
+  <% end %>
+  <%= check_box_tag chunk[:name], chunk[:name], true, class: 'hidden container-checkbox' %>
+  <div class="bg-gray-50 border-t container-content">
+    <% chunk[:data].each do |name, value|%>
+    <div class="flex flex-nowrap items-start whitespace-pre text-sm leading-3" >
+      <div class="p-0 md:px-8">
+        <%= name %>
+      </div>
+      <div class="flex-grow break-all overflow-x-auto overflow-y-hidden">
+        <% if value.is_a?(Hash) %>
+        <div class="leading-loose">
+          <%= JSON.pretty_generate(value) %>
+        </div>
+        <% else %>
+        <%= value %>
+        <% end %>
+      </div>
+    </div>
+    <% end %>
+  </div>
+</div>

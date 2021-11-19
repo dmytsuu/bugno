@@ -1,0 +1,12 @@
+<div class="container mx-auto px-4 py-4 shadow text-sm">
+  <div class="px-2 md:px-8 mb-4">
+    <h1 class="text-xl mb-4"><%= @event.title %></h1>
+    <p class="mb-4">
+      <%= link_to 'Back to event', event_path(@event), class: 'rounded bg-gray-100 hover:bg-gray-200 p-2' %>
+    </p>
+    <%= render partial: 'request_params/chunk', collection: @request_params %>
+</div>
+
+<%= link_to event_path(@event), class: 'md:hidden fixed h-14 bottom-24 right-8 z-20 text-white rounded-full bg-gray-700 text-3xl w-14 p-2' do %>
+  <%= image_tag 'up.svg', class: 'filter invert hover:opacity-75 transform -rotate-90' %>
+<% end %>

@@ -1,4 +1,4 @@
-<div class="rounded-md my-3 text-sm bg-white py-2 px-2 event-container hover:bg-gray-50 relative shadow <%= event.status_previously_changed? ? 'event-status-changed' : nil %>" id=<%= dom_id(event) %> draggable="true" data-action="dragstart->board#drag" data-status="<%= event.status %>">
+<div class="rounded-md my-3 text-sm bg-white py-3 px-2 event-container hover:bg-gray-50 relative shadow <%= event.status_previously_changed? ? 'event-status-changed' : nil %>" id=<%= dom_id(event) %> draggable="true" data-action="dragstart->board#drag" data-status="<%= event.status %>">
   <%= link_to event_path(event), class: 'event-link', target: '_top' do %>
   <% end %>
   <div>

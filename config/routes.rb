@@ -10,6 +10,9 @@ Rails.application.routes.draw do
     resource :settings
   end
   resources :assignees
-  resources :events
+  resources :events do
+    resource :request_params, only: :show
+    # resources :occurrences
+  end
   post 'api/v1/projects/:project_id/events', to: 'api/v1/events#create'
 end
