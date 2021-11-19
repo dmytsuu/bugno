@@ -8,6 +8,7 @@ class Event < ApplicationRecord
   belongs_to :user, optional: true
   belongs_to :parent, class_name: 'Event', optional: true, counter_cache: :occurrence_count
   has_many :occurrences, class_name: 'Event', foreign_key: 'parent_id', dependent: :delete_all
+  has_one :last_occurrence, -> { order(created_at: :desc) }, class_name: 'Event', foreign_key: 'parent_id'
 
   attribute :framework, :string, default: :plain
 

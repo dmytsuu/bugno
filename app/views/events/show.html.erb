@@ -26,7 +26,15 @@
     <% end %>
     <p class="mb-2">First appearance: <%= @event.created_at %></p>
     <p class="mb-2">Last occurrence: <%= @event.last_occurrence_at || @event.created_at%></p>
-    <p>Occurrences: <%= @event.occurrence_count %></p>
+    <% if @event.parent? && @event.last_occurrence %>
+      <p class="mb-4">
+        <span>
+          Occurrences: <%= @event.occurrence_count %>
+        </span>
+        <%= link_to 'Last cccurrence', event_path(@event.last_occurrence), class: 'rounded bg-gray-100 hover:bg-gray-200 p-2' %>
+      </p>
+    <% end %>
+    <%= link_to 'Parent event', event_path(@event.parent_id), class: 'rounded bg-gray-100 hover:bg-gray-200 p-2' if @event.occurrence? %>
   </div>
   <div class="flex flex-col md:flex-row px-2 md:px-8 mb-4">
     <%= render partial: 'events/assignee', locals: { event: @event } %>

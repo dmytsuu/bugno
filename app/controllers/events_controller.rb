@@ -9,7 +9,7 @@ class EventsController < ApplicationController
   end
 
   def show
-    @event = Event.includes(:project).find(params[:id])
+    @event = Event.includes(:project, :last_occurrence).find(params[:id])
     @project = @event.project
   end
 
