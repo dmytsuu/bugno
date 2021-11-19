@@ -7,7 +7,7 @@
 <div class="fixed inset-0 bg-white z-10 navigation flex flex-col justify-between text-center container-content overflow-y-auto">
   <div>
     <%= render 'shared/management' if @project %>
-    <%= turbo_frame_tag 'projects', loading: :lazy, src: projects_path %>
+    <%= turbo_frame_tag 'projects', loading: :lazy, src: mobile_projects_path %>
     <%= link_to 'Exit', destroy_user_session_path, class: 'py-2 text-white block md:inline-block px-4 bg-red-400 hover:bg-red-500 rounded mt-2' %>
   </div>
 </div>

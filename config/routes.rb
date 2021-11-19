@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   mount Sidekiq::Web => '/sidekiq'
   root 'projects#index'
   devise_for :users
+  resources :mobile_projects
   resources :projects do
     resources :members
     resource :settings
