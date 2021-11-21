@@ -1,8 +1,8 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  username: <%= Rails.application.credentials.database_user { 'postgres' } %>
-  password: <%= Rails.application.credentials.database_password { 'password' } %>
+  username: <%= ENV.fetch('DATABASE_USER') { 'postgres' } %>
+  password: <%= ENV.fetch('DATABASE_PASSWORD') { 'password' } %>
   host: localhost
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
@@ -16,4 +16,6 @@ test:
 
 production:
   <<: *default
+  username: <%= Rails.application.credentials.database_user %>
+  password: <%= Rails.application.credentials.database_password %>
   database: <%= Rails.application.credentials.production_database %>
