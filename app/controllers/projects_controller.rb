@@ -19,15 +19,22 @@ class ProjectsController < ApplicationController
 
   def show
     @project = Project.find(params[:id])
+    authorize(@project)
   end
 
   def destroy
     @project = Project.find(params[:id])
+    authorize(@project)
     @project.destroy
     redirect_to projects_path
   end
 
   private
+
+  def authorize(project)
+    authorized = project.project_users.any? { |user| user.user_id == current_user.id }
+    redirect_to projects_path unless authorized
+  end
 
   def project_params
     params.require(:project).permit(:name)

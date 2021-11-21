@@ -1,5 +1,7 @@
 class EventsController < ApplicationController
   def index
+    project = Project.find(params[:project_id])
+    authorize(project)
     @events = Event
               .includes(:user)
               .where(parent_id: nil, status: params[:status], project_id: params[:project_id])
@@ -11,10 +13,12 @@ class EventsController < ApplicationController
   def show
     @event = Event.includes(:project, :last_occurrence).find(params[:id])
     @project = @event.project
+    authorize(@project)
   end
 
   def update
     @event = Event.find(params[:id])
+    authorize(@event.project)
     if @event.update(params[:event].present? ? event_params : self_assign_params)
       EventMailer.assign(@event, current_user).deliver_later if @event.user_id_previously_changed? && @event.user && @event.user != current_user
       respond_to do |format|
@@ -27,11 +31,17 @@ class EventsController < ApplicationController
 
   def destroy
     event = Event.find(params[:id])
+    authorize(project)
     event.destroy
     head :no_content
   end
 
   private
+
+  def authorize(project)
+    authorized = project.project_users.any? { |user| user.user_id == current_user.id }
+    redirect_to projects_path unless authorized
+  end
 
   def self_assign_params
     @event.user_id ? { user_id: nil } : { user_id: current_user.id }

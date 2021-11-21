@@ -1,16 +1,19 @@
 class SettingsController < ApplicationController
   def show
     @project = Project.find(params[:project_id])
+    authorize(@project)
     @owner = @project.project_users.any? { |user| user.user_id == current_user.id && user.owner? }
   end
 
   def edit
     @project = Project.find(params[:project_id])
+    authorize(@project)
     @owner = @project.project_users.any? { |user| user.user_id == current_user.id && user.owner? }
   end
 
   def update
     project = Project.find(params[:project_id])
+    authorize(@project)
     @owner = project.project_users.any? { |user| user.user_id == current_user.id && user.owner? }
     # TODO: notify authorization error
     redirect_to project_members_path(project) unless @owner
@@ -24,6 +27,11 @@ class SettingsController < ApplicationController
   end
 
   private
+
+  def authorize(project)
+    authorized = project.project_users.any? { |user| user.user_id == current_user.id }
+    redirect_to projects_path unless authorized
+  end
 
   def project_params
     params.require(:project).permit(:name)

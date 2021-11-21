@@ -1,18 +1,21 @@
 class MembersController < ApplicationController
   def index
     @project = Project.find(params[:project_id])
+    authorize(@project)
     @members = @project.project_users.includes(:user)
     @owner = @members.any? { |user| user.user_id == current_user.id && user.owner? }
   end
 
   def new
     @project = Project.find(params[:project_id])
+    authorize(@project)
     @member = @project.project_users.new(role: :collaborator)
     @owner = @project.project_users.any? { |user| user.user_id == current_user.id && user.owner? }
   end
 
   def create
     @project = Project.find(params[:project_id])
+    authorize(@project)
     @owner = @project.project_users.any? { |user| user.user_id == current_user.id && user.owner? }
     # TODO: notify authorization error
     redirect_to project_members_path(@project) unless @owner
@@ -35,6 +38,7 @@ class MembersController < ApplicationController
 
   def destroy
     project = Project.find(params[:project_id])
+    authorize(project)
     @owner = project.project_users.any? { |user| user.user_id == current_user.id && user.owner? }
     # TODO: notify authorization error
     redirect_to project_members_path(project) unless @owner
@@ -50,6 +54,11 @@ class MembersController < ApplicationController
   end
 
   private
+
+  def authorize(project)
+    authorized = project.project_users.any? { |user| user.user_id == current_user.id }
+    redirect_to projects_path unless authorized
+  end
 
   def member_params
     params.require(:project_user).permit(:email)
