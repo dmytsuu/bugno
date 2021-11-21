@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 class User < ActiveRecord::Base
-  # extend Devise::Models
   devise :database_authenticatable,
          :validatable,
          :recoverable,
-         :rememberable
+         :rememberable,
+         :registerable
 
   validates :email, uniqueness: true
 
