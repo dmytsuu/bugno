@@ -1,7 +1,7 @@
 <%= turbo_frame_tag 'projects' do %>
   <div class="text-center">
     <% if @mobile_projects.present? %>
-    <h2 class="font-bold">Projects:</h2>
+    <h2 class="font-bold py-2">Projects:</h2>
     <ul>
       <%= render partial: 'mobile_projects/mobile_project', collection: @mobile_projects %>
     </ul>

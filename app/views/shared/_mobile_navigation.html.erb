@@ -7,7 +7,10 @@
 <div class="fixed inset-0 bg-white z-10 navigation flex flex-col justify-between text-center container-content overflow-y-auto">
   <div>
     <%= render 'shared/management' if @project %>
+    <div class="border-2 border-b"></div>
     <%= turbo_frame_tag 'projects', loading: :lazy, src: mobile_projects_path %>
-    <%= link_to 'Exit', destroy_user_session_path, class: 'py-2 text-white block md:inline-block px-4 bg-red-400 hover:bg-red-500 rounded mt-2' %>
+    <div class="border-2 border-b"></div>
+    <%= link_to 'Contact', "mailto:#{Rails.application.credentials.contact_email}?subject = Bugno", class: 'py-2 block md:inline-block px-4 rounded mt-2' %>
+    <%= link_to 'Exit', destroy_user_session_path, class: 'py-2 font-bold block md:inline-block px-4 rounded mt-2' %>
   </div>
 </div>
