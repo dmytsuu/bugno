@@ -12,23 +12,23 @@ class MembersController < ApplicationController
   end
 
   def create
-    project = Project.find(params[:project_id])
-    @owner = project.project_users.any? { |user| user.user_id == current_user.id && user.owner? }
+    @project = Project.find(params[:project_id])
+    @owner = @project.project_users.any? { |user| user.user_id == current_user.id && user.owner? }
     # TODO: notify authorization error
-    redirect_to project_members_path(project) unless @owner
+    redirect_to project_members_path(@project) unless @owner
 
     user = User.find_by(email: member_params[:email])
     if user
-      @project_user = ProjectUser.new(user: user, project: project, role: :collaborator)
+      @project_user = ProjectUser.new(user: user, project: @project, role: :collaborator)
       if @project_user.save
         # TODO: notify success
       else
         # TODO: notify project_user errors
-        redirect_to project_members_path(project)
+        redirect_to project_members_path(@project)
       end
     else
       # TODO: notify user invited && change to deliver_later
-      ProjectMemberMailer.invite(member_params[:email], current_user.email, project.name).deliver_now
+      ProjectMemberMailer.invite(member_params[:email], current_user.email, @project.name).deliver_now
       head :no_content
     end
   end
