@@ -31,7 +31,7 @@ class EventsController < ApplicationController
 
   def destroy
     event = Event.find(params[:id])
-    authorize(project)
+    authorize(event.project)
     event.destroy
     head :no_content
   end
