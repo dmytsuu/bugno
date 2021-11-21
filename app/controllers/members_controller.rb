@@ -17,7 +17,6 @@ class MembersController < ApplicationController
     @project = Project.find(params[:project_id])
     authorize(@project)
     @owner = @project.project_users.any? { |user| user.user_id == current_user.id && user.owner? }
-    # TODO: notify authorization error
     redirect_to project_members_path(@project) unless @owner
 
     user = User.find_by(email: member_params[:email])
@@ -30,8 +29,7 @@ class MembersController < ApplicationController
         redirect_to project_members_path(@project)
       end
     else
-      # TODO: notify user invited && change to deliver_later
-      ProjectMemberMailer.invite(member_params[:email], current_user.email, @project.name).deliver_now
+      ProjectMemberMailer.invite(member_params[:email], current_user.email, @project.name).deliver_later
       head :no_content
     end
   end
@@ -40,11 +38,13 @@ class MembersController < ApplicationController
     project = Project.find(params[:project_id])
     authorize(project)
     @owner = project.project_users.any? { |user| user.user_id == current_user.id && user.owner? }
-    # TODO: notify authorization error
-    redirect_to project_members_path(project) unless @owner
     @project_user = ProjectUser.find(params[:id])
+    if @owner && remove_self?(@project_user.user_id) || !@owner && remove_someone?(@project_user.user_id)
+      redirect_to project_members_path(project)
+    end
     if @project_user.destroy
       respond_to do |format|
+        redirect_to projects_path if remove_self?(@project_user.user_id)
         format.turbo_stream
       end
     else
@@ -54,6 +54,14 @@ class MembersController < ApplicationController
   end
 
   private
+
+  def remove_self?(user_id)
+    current_user.id == user_id
+  end
+
+  def remove_someone?(user_id)
+    !remove_self?(user_id)
+  end
 
   def member_params
     params.require(:project_user).permit(:email)

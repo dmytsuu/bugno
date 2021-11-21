@@ -7,7 +7,7 @@
       <p class="text-sm"><%= member.user.email %></p>
     <% end %>
   </div>
-  <% if current_user_owner? && member.collaborator? %>
+  <% if current_user_owner? && member.collaborator? || !current_user_owner? && current_user.id == member.user_id %>
     <%= form_with url: project_member_path(@project, member), method: :delete, class: 'mt-4' do |f| %>
       <%= f.submit 'Remove', class: 'rounded text-white bg-red-500 cursor-pointer py-1 hover:bg-red-600 block w-full' %>
     <% end %>
