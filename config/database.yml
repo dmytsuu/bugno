@@ -1,8 +1,8 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  username: <%= ENV.fetch('DATABASE_USER') { 'postgres' } %>
-  password: <%= ENV.fetch('DATABASE_PASSWORD') { 'password' } %>
+  username: <%= Rails.application.credentials.database_user { 'postgres' } %>
+  password: <%= Rails.application.credentials.database_password { 'password' } %>
   host: localhost
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
@@ -14,8 +14,6 @@ test:
   <<: *default
   database: bugno_test
 
-staging:
-  url: <%= ENV['DATABASE_URL'] %>
-
 production:
-  url: <%= ENV['DATABASE_URL'] %>
+  <<: *default
+  database: <%= Rails.application.credentials.production_database %>

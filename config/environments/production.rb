@@ -79,12 +79,12 @@ Rails.application.configure do
   config.action_mailer.smtp_settings = {
     address: 'smtp.gmail.com',
     port: 587,
-    user_name: ENV['MAILER_USERNAME'],
-    password: ENV['MAILER_PASSWORD'],
+    user_name: Rails.application.credentials.mail_service_user,
+    password: Rails.application.credentials.mail_service_password,
     authentication: 'plain',
     enable_starttls_auto: true
   }
-  config.action_mailer.default_url_options = { host: ENV['APPLICATION_URL'] }
+  config.action_mailer.default_url_options = { host: Rails.application.credentials.application_host }
 
   # Log disallowed deprecations.
   config.active_support.disallowed_deprecation = :log
