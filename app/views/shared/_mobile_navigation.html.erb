@@ -10,6 +10,7 @@
     <div class="border-2 border-b"></div>
     <%= turbo_frame_tag 'projects', loading: :lazy, src: mobile_projects_path %>
     <div class="border-2 border-b"></div>
+    <%= link_to 'Help', helps_path, class: 'py-2 block md:inline-block px-4 rounded mt-2' %>
     <%= link_to 'Contact', "mailto:#{Rails.application.credentials.contact_email}?subject = Bugno", class: 'py-2 block md:inline-block px-4 rounded mt-2' %>
     <%= link_to 'Exit', destroy_user_session_path, class: 'py-2 font-bold block md:inline-block px-4 rounded mt-2' %>
   </div>

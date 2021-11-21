@@ -1,0 +1,19 @@
+<div class="container mx-auto px-4 py-4">
+  <h1 class="text-2xl mb-4">Help</h1>
+  <ol class="pl-4 list-decimal">
+    <li class="mb-2">
+      <%= link_to 'Create a project', new_project_path, class: 'font-bold underline' %>
+    </li>
+    <li class="mb-2">
+      Follow README for:
+      <ul class="pl-4 pt-2 list-disc">
+        <li class="mb-2">
+          <%= link_to 'Rails', HelpsController::RAILS_GEM_REPOSITORY_URL, class: 'font-bold underline' %>
+        </li>
+        <li>
+          <%= link_to 'Browser JS', HelpsController::JS_LIB_REPOSITORY_URL, class: 'font-bold underline' %>
+        </li>
+      </ul>
+    </li>
+  </ol>
+</div>
