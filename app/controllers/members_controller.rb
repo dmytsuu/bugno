@@ -55,11 +55,6 @@ class MembersController < ApplicationController
 
   private
 
-  def authorize(project)
-    authorized = project.project_users.any? { |user| user.user_id == current_user.id }
-    redirect_to projects_path unless authorized
-  end
-
   def member_params
     params.require(:project_user).permit(:email)
   end

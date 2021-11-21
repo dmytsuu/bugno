@@ -38,11 +38,6 @@ class EventsController < ApplicationController
 
   private
 
-  def authorize(project)
-    authorized = project.project_users.any? { |user| user.user_id == current_user.id }
-    redirect_to projects_path unless authorized
-  end
-
   def self_assign_params
     @event.user_id ? { user_id: nil } : { user_id: current_user.id }
   end
