@@ -6,15 +6,15 @@ Let's go:
 
 * Rails, Redis, Sidekiq
 
-* Postgres. Username: postgres | password: password. Checked config/database.yml
+* Postgres. Username: postgres | password: password. Check config/database.yml
 
 * Create && migrate should be ok.
 
-* Tests tbd.
+* Tests - tbd.
 
 * Capistrano for deploy, all nessesary things stored in credentials
 
-* All you need is master or create fresh credentials.yml if this one is f\*cked
+* All you need is master key or create fresh credentials.yml if these are f\*cked
 
 ### Current credentials:
 
