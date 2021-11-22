@@ -1,0 +1,17 @@
+<div id="form">
+  <% if flash[:notice].present? %>
+    <p class="bg-green-500 text-white inline-block rounded px-2">
+      <%= flash[:notice] %>
+    </p>
+  <% end %>
+
+  <%= form_with model: @project_user, url: project_preferences_path, method: :put do |f| %>
+    <div class="mr-2">
+      <%= f.check_box :notify, { checked: @project_user.notify, class: 'rounded' } %>
+      <%= f.label :notify, 'Notify?', class: 'mr-1 uppercase font-semibold' %>
+    </div>
+    <p class="mt-2">
+      <%= f.submit 'Update', class: 'ml-1 p-1 rounded bg-green-500 hover:bg-green-600 text-white' %>
+    </p>
+  <% end %>
+</div>

@@ -26,6 +26,9 @@
           <%= link_to 'Team', project_members_path(@project), class: 'hover:text-gray-800 py-2 px-3 block hover:bg-gray-100' %>
         </li>
         <li>
+          <%= link_to 'Preferences', edit_project_preferences_path(@project), class: 'hover:text-gray-800 py-2 px-3 block hover:bg-gray-100' %>
+        </li>
+        <li>
           <%= link_to 'Settings', project_settings_path(@project), class: 'hover:text-gray-800 py-2 px-3 block hover:bg-gray-100' %>
         </li>
       </ul>

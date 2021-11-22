@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   resources :projects do
     resources :members
     resource :settings
+    resource :preferences
   end
   resources :assignees
   resources :events do

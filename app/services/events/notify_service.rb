@@ -50,6 +50,6 @@ class Events::NotifyService < ApplicationService
   end
 
   def user_emails
-    @user_emails ||= event.project.users.pluck(:email)
+    @user_emails ||= event.project.project_users.joins(:user).where(notify: true).pluck(Arel.sql('users.email'))
   end
 end
