@@ -2,7 +2,7 @@
 
 Let's go:
 
-* ruby 3.0.2
+* Ruby 3.0.2
 
 * Rails, Redis, Sidekiq
 
