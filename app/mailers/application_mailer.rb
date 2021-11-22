@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'no-reply@bugno.io'
+  default from: 'bugno'
   layout 'mailer'
 end
