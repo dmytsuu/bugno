@@ -5,6 +5,7 @@ source 'https://rubygems.org'
 ruby '3.0.2'
 
 gem 'bootsnap', '>= 1.4.4', require: false
+gem 'bugno'
 gem 'device_detector'
 gem 'devise'
 gem 'friendly_id'
