@@ -1,24 +1,33 @@
-# README
+# BUGNO POWERED BY TURBO
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Let's go:
 
-Things you may want to cover:
+* ruby 3.0.2
 
-* Ruby version
+* Rails, Redis, Sidekiq
 
-* System dependencies
+* Postgres. Username: postgres | password: password. Checked config/database.yml
 
-* Configuration
+* Create && migrate should be ok.
 
-* Database creation
+* Tests tbd.
 
-* Database initialization
+* Capistrano for deploy, all nessesary things stored in credentials
 
-* How to run the test suite
+* All you need is master or create fresh credentials.yml if this one is f\*cked
 
-* Services (job queues, cache servers, search engines, etc.)
+### Current credentials:
 
-* Deployment instructions
-
-* ...
+```
+  secret_key_base
+  production_database
+  database_user
+  database_password
+  mail_service_user
+  mail_service_password
+  application_host
+  production_server_ip
+  production_server_user
+  contact_email
+  bugno_api_key
+```
