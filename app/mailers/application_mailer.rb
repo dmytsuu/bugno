@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'bugno'
+  default from: 'Bugno Notification'
   layout 'mailer'
 end

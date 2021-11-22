@@ -68,7 +68,6 @@ GEM
     bindex (0.8.1)
     bootsnap (1.9.1)
       msgpack (~> 1.0)
-    bugno (0.1.9)
     builder (3.2.4)
     capistrano (3.16.0)
       airbrussh (>= 1.0.0)
@@ -259,7 +258,6 @@ PLATFORMS
 
 DEPENDENCIES
   bootsnap (>= 1.4.4)
-  bugno
   capistrano (~> 3.11)
   capistrano-passenger (~> 0.2.0)
   capistrano-rails (~> 1.4)
