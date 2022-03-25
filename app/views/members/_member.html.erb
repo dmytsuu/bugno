@@ -1,6 +1,6 @@
 <div class="text-center m-4 shadow rounded-lg p-8 flex flex-col justify-between w-72" id="<%= dom_id(member) %>">
   <div>
-    <%= image_tag member.user.image, class: 'h-24 w-24 rounded-full mx-auto' %>
+    <%= image_tag member.user.image || 'logo.svg', class: 'h-24 w-24 rounded-full mx-auto' %>
     <p class="mt-4"><%= member.role %></p>
     <p><%= member.user.nickname %></p>
     <% if current_user_owner? %>
