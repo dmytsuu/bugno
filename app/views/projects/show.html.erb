@@ -1,5 +1,5 @@
 <%= turbo_stream_from @project %>
-<div class="slider" data-controller="board">
+<div class="slider">
   <% Event.statuses.each_key do |status| %>
     <%= render partial: 'projects/events_collection', locals: { project_id: @project.id, status: status } %>
   <% end %>
