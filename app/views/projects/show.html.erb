@@ -1,20 +1,6 @@
 <%= turbo_stream_from @project %>
 <div class="slider" data-controller="board">
   <% Event.statuses.each_key do |status| %>
-    <section class="section bg-gray-100 rounded-lg shadow" data-board-target="list" data-status="<%= status %>">
-      <div class="flex justify-between">
-        <div class="px-2 text-sm font-bold">
-          <%= status.capitalize %>
-        </div>
-        <%= button_to 'Delete events', event_collection_path(project_id: @project, status: status), method: :delete, class: 'text-sm px-2 py-1 hover:bg-red-400 hover:text-white cursor-pointer rounded' %>
-      </div>
-      <%= turbo_frame_tag "#{status}_events" do %>
-        <%= turbo_frame_tag "#{status}_events_page_1", src: events_path(project_id: @project.id, status: status, page: 1) do %>
-        <% 6.times do %>
-        <div class="rounded-md my-3 bg-gray-200 py-1 px-2 w-full event-container shadow"></div>
-        <% end %>
-        <% end %>
-      <% end %>
-    </section>
+    <%= render partial: 'projects/events_collection', locals: { project_id: @project.id, status: status } %>
   <% end %>
 </div>
