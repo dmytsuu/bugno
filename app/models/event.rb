@@ -20,10 +20,6 @@ class Event < ApplicationRecord
   scope :by_parent, ->(parent_id) { where(parent_id: parent_id) if parent_id.present? }
   scope :since, ->(time_ago) { where('created_at > :time_ago', time_ago: time_ago) }
 
-  # after_update :update_occurrences_status, if: -> { parent? && saved_change_to_status? }
-  # after_save :update_active_count, :broadcast, if: :parent?
-  # after_destroy :update_active_count, :broadcast, if: :parent?
-
   after_create :broadcast_new_event_to_board, if: :parent?
   after_update_commit :broadcast_assignee_to_board, :broadcast_assignee_to_details, if: :user_id_previously_changed?
   after_update_commit :broadcast_status_to_board, :broadcast_status_to_details, if: :status_previously_changed?
