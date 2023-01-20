@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     resource :request_params, only: :show
     # resources :occurrences
   end
+  resources :event_collections, only: :destroy
   resource :helps
   post 'api/v1/projects/:project_id/events', to: 'api/v1/events#create'
 end
