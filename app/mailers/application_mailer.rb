@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'Bugno Notification'
+  default from: Rails.application.credentials.mail_service_user
   layout 'mailer'
 end
