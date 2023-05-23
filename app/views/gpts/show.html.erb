@@ -1,0 +1,14 @@
+<%= turbo_frame_tag 'gpt_help' do %>
+  <% if @answer %>
+      <p class="py-1">
+        - <%= "What is #{@event.title} exception?. What does this mean?" %>
+      </p>
+      <p class="py-1">
+        - <%= @answer %>
+      </p>
+  <% else %>
+    <p>
+      Sorry, chat was not able to give you an answer, please ask again or later.
+    </p>
+  <% end %>
+<% end %>

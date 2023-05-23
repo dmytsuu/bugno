@@ -43,9 +43,14 @@
       <%= link_to 'Request and headers', event_request_params_path(@event), class: 'rounded bg-gray-100 hover:bg-gray-200 p-2' %>
     </p>
   </div>
-  <div class="flex flex-col md:flex-row p-2 md:px-8 mb-4">
+  <div class="flex flex-col md:flex-row p-2 md:px-8 mb-2">
     <%= render partial: 'events/assignee', locals: { event: @event } %>
     <%= render partial: 'events/status', locals: { event: @event } %>
+  </div>
+  <div class="md:px-8 mb-4 py-2 border rounded border-blue-300 font-semibold">
+    <%= turbo_frame_tag 'gpt_help', src: event_gpt_path(@event) do %>
+        Asking ChatGPT...
+    <% end %>
   </div>
   <div class="traces" data-controller="event">
     <% if @event.project_trace? %>

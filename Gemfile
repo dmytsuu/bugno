@@ -41,3 +41,5 @@ group :development do
   gem 'spring'
   gem 'web-console', '>= 4.1.0'
 end
+
+gem "ruby-openai", "~> 4.1"

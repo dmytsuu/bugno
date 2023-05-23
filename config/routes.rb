@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   resources :assignees
   resources :events do
     resource :request_params, only: :show
+    resource :gpt, only: :show
     # resources :occurrences
   end
   resources :event_collections, only: :destroy
