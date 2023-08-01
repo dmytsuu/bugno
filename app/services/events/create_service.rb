@@ -5,8 +5,8 @@ class Events::CreateService < ApplicationService
     return event unless project
 
     # ::Events::ResolveSourceCodeService.call(event: event, trace: event.backtrace[0]) if resolve_source?
-    event.save
-    update_parrent if event.persisted? && event.occurrence?
+    event.save if event.parent? || event.occurrences.count.zero?
+    update_parrent if event.occurrence? && event.valid?
     event
   end
 
@@ -15,6 +15,7 @@ class Events::CreateService < ApplicationService
   def update_parrent
     parent.update(last_occurrence_at: Time.now)
     parent.active! if parent.resolved?
+    parent.occurrence_count.increment
   end
 
   def resolve_source?
