@@ -15,7 +15,6 @@ class Events::CreateService < ApplicationService
   def update_parrent
     parent.update(last_occurrence_at: Time.now)
     parent.active! if parent.resolved?
-    parent.occurrence_count.increment
     Event.increment_counter(:occurrence_count, parent.id)
   end
 
