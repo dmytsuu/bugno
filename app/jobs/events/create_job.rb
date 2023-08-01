@@ -5,6 +5,6 @@ class Events::CreateJob < ApplicationJob
 
   def perform(params)
     @event = Events::CreateService.call(params: params)
-    Events::NotifyService.call(event: @event) if @event.persisted?
+    # Events::NotifyService.call(event: @event) if @event.persisted?
   end
 end
