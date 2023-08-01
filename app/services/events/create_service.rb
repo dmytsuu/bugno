@@ -5,7 +5,7 @@ class Events::CreateService < ApplicationService
     return event unless project
 
     # ::Events::ResolveSourceCodeService.call(event: event, trace: event.backtrace[0]) if resolve_source?
-    event.save if event.parent? || event.occurrences.count.zero?
+    event.save if event.parent? || parent.occurrence_count.zero?
     update_parrent if event.occurrence? && event.valid?
     event
   end
