@@ -23,6 +23,7 @@ gem 'slim'
 gem 'stimulus-rails', '~> 0.6.1'
 gem 'tailwindcss-rails'
 gem 'turbo-rails'
+gem 'whenever', require: false
 
 group :development, :test do
   gem 'pry'
