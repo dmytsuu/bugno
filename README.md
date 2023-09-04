@@ -14,7 +14,7 @@ Let's go:
 
 * Capistrano for deploy, all nessesary things stored in credentials
 
-* All you need is master key or create fresh credentials.yml if these are f\*cked
+* All you need is master key or create fresh credentials.ymy.
 
 ### Current credentials:
 
